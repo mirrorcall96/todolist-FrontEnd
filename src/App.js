@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import TodolistList from "./components/TodolistList";
+import TodolistModal from "./components/TodolistModal";
+import { useState } from "react";
 
 function App() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      Today Tasks
+      <TodolistList setShow={setShow} table="today" />
+      Other Tasks
+      <TodolistList setShow={setShow} table="future" />
+      Done Tasks
+      <TodolistList setShow={setShow} table="done" />
+      <button type="button" class="btn btn-danger" onClick={handleShow}>
+        Add
+      </button>
+      {show ? <TodolistModal show={show} handleClose={handleClose} /> : ""}
+    </>
   );
 }
 
