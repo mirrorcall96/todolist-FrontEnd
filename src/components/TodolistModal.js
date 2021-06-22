@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import DatePicker from "react-date-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { createTodolist, updateTodolist } from "../store/actions";
 
@@ -24,8 +23,12 @@ const TodolistModal = (props) => {
     });
   };
   const handelChangeDeadLine = (e) => {
+    e = new Date(e.target.value);
+    console.log(e, e.toISOString().slice(0, 19));
+    //const today = new Date();
     setInput({
       ...input,
+      //deadline: e > today ? e : today,
       deadline: e,
     });
   };
@@ -45,30 +48,41 @@ const TodolistModal = (props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>
+            {show !== true && show !== false ? "Update" : "Add"} Task
+          </Modal.Title>
         </Modal.Header>
         <form onSubmit={handelSubmit}>
           <Modal.Body>
-            <input
-              placeholder="Task Name"
-              value={input.name}
-              name="name"
-              onChange={handelChange}
-            />
-            <select
-              onChange={handelChange}
-              name="priority"
-              defaultValue={input.priority}
-            >
-              <option>low</option>
-              <option>middle</option>
-              <option>high</option>
-            </select>
-            <DatePicker
-              name="deadline"
-              onChange={handelChangeDeadLine}
-              value={input.deadline}
-            />
+            <div className="form-group">
+              <input
+                placeholder="Task Name"
+                value={input.name}
+                name="name"
+                onChange={handelChange}
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <select
+                className="form-control"
+                onChange={handelChange}
+                name="priority"
+                defaultValue={input.priority}
+              >
+                <option value="low">Low</option>
+                <option value="middle">Middle</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <input
+                className="form-control"
+                type="datetime-local"
+                onChange={handelChangeDeadLine}
+                value={input.deadline.toISOString().slice(0, 19)}
+              />
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>

@@ -8,18 +8,15 @@ function App() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
-    <>
-      Today Tasks
+    <div className="container">
       <TodolistList setShow={setShow} table="today" />
-      Other Tasks
       <TodolistList setShow={setShow} table="future" />
-      Done Tasks
       <TodolistList setShow={setShow} table="done" />
-      <button type="button" class="btn btn-danger" onClick={handleShow}>
+      <button type="button" className="btn btn-danger" onClick={handleShow}>
         Add
       </button>
       {show ? <TodolistModal show={show} handleClose={handleClose} /> : ""}
-    </>
+    </div>
   );
 }
 
